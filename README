@@ -1,0 +1,50 @@
+Bonnie,
+This assignment did not go as planned. I'm having trouble with psql on my Windows machine. It was working earlier this week, so I'm unsure of what changed. I suspect perhaps I quit out of psql unceremoniously, but have failed to resolve the issue.
+
+Here's the issue:
+*******************************************************************************
+~/homework/skills_assessment/week4-sql $ psql
+psql: could not connect to server: No such file or directory
+        Is the server running locally and accepting
+        connections on Unix domain socket "/tmp/.s.PGSQL.5432"?
+~/homework/skills_assessment/week4-sql $
+*******************************************************************************
+
+BUT, this works:
+*******************************************************************************
+~/homework/skills_assessment/week4-sql $ psql -p 5432 -h localhost
+Password:
+psql (9.5.1, server 9.4.6)
+Type "help" for help.
+
+groovycol=#
+*******************************************************************************
+
+I can see that the postgres service is running on windows, I was able to run createdb (but only with those same flags), and populate the database, but now I can't access those tables.
+
+setting an alias of psql='psql -p 5432 -h localhost' helped a bit with the command line, but psycopg2 wasn't inclined to play along.
+
+*******************************************************************************
+(env) ~/homework/skills_assessment/week4-sql $ python quiz.py
+Traceback (most recent call last):
+  File "quiz.py", line 529, in <module>
+    quiz = SQLQuiz()
+  File "quiz.py", line 360, in __init__
+    self.db = Database()
+  File "quiz.py", line 201, in __init__
+    self.cursor = self.connect()
+  File "quiz.py", line 207, in connect
+    conn = psycopg2.connect("dbname=cars")
+  File "/home/groovycol/homework/skills_assessment/week4-sql/env/lib/python2.7/site-packages/psycopg2/__init__.py", line 164, in connect
+    conn = _connect(dsn, connection_factory=connection_factory, async=async)
+psycopg2.OperationalError: could not connect to server: No such file or directory
+        Is the server running locally and accepting
+        connections on Unix domain socket "/tmp/.s.PGSQL.5432"?
+
+(env) ~/homework/skills_assessment/week4-sql $
+*******************************************************************************
+
+I tried to reverse engineer the quiz files to see if I could pull out the questions, but it's not a straight-forward task, so I did the more-practice.sql and called it a day.
+
+*insert sad kitten gif here*
+Colleen
